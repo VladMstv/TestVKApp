@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using TestSegmento.BL.API;
+using TestSegmento.BL.API.Interfaces;
 using TestSegmento.BL.API.Models;
 using TestSegmento.BL.Utils;
 using TestSegmento.ViewModels.Home;
@@ -45,8 +46,8 @@ namespace TestSegmento.Controllers
         }
 
 
-        private VKApiManager _vkApi;
-        private VKApiManager VKapi
+        private IVKApiManager _vkApi;
+        private IVKApiManager VKapi
         {
             get
             {

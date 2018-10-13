@@ -261,6 +261,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="BL\API\CustomVKApi.cs" />
+    <Compile Include="BL\API\Interfaces\IVKApiManager.cs" />
     <Compile Include="BL\API\Models\CustomVKApiModels.cs" />
     <Compile Include="BL\API\Models\VKException.cs" />
     <Compile Include="BL\API\VKApiManager.cs" />
@@ -353,7 +354,6 @@
   <ItemGroup>
     <Folder Include="AngularTestSegmento\dist\AngularTestSegmento\" />
     <Folder Include="App_Data\" />
-    <Folder Include="BL\Custom\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

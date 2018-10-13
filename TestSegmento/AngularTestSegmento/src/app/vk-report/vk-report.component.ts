@@ -6,6 +6,7 @@ import { fbind } from 'q';
 import { BehaviorSubject, Subject, of } from 'rxjs';
 import { ReportViewModel } from '../view-models/ReportViewModel';
 import { catchError } from 'rxjs/operators';
+import { Utils } from '../Utils/Utils';
 
 
 const Hours = [...Array.from(Array(24).keys())];
@@ -21,6 +22,11 @@ export class VkReportComponent implements OnInit {
   Posts: Subject<Post[]> = new Subject();
   Error: string;
   IsLoading: boolean;
+  Util: Utils = new Utils();
+
+  get VKId() { return this.StepForm.get("VKId") }
+
+  get intervalsArray() { return this.StepForm.get("intervalsArray"); }
 
   constructor(private fb: FormBuilder, private service: VkReportServiceService) {
     this.InitForm();
@@ -32,7 +38,7 @@ export class VkReportComponent implements OnInit {
 
   InitForm() {
     this.StepForm = this.fb.group({
-      VKId: ["", Validators.required],
+      VKId: ["", [Validators.required, Validators.pattern("^[0-9a-zA-Z\.]+$")]],
       intervalsArray: this.fb.array([
         new FormControl('')
       ])
@@ -42,7 +48,6 @@ export class VkReportComponent implements OnInit {
       if (this.Error) this.Error = null;
     })
   }
-
 
   ProcessPosts(posts: Post[]) {
     if (posts.length>0) {
@@ -55,16 +60,15 @@ export class VkReportComponent implements OnInit {
         likesInIntervalArray[hour].push(post.likes.count);
       });
       
-  
       let intervals: ReportViewModel[] = [];
   
       numOfPostsInIntervalArray.forEach((postsNumber, index) => {
         if (postsNumber > 0) {
           let array = Array.from(likesInIntervalArray[index]);
-          array = this.sort(array, false);
+          array = this.Util.sort(array, false);
           //
           if (array.length > 1) {
-            if (!this.IsEven(array.length)) {
+            if (!this.Util.IsEven(array.length)) {
               likesMedianInIntervalArray[index] = array[((array.length+1)/2)-1];
             }
             else {
@@ -79,9 +83,9 @@ export class VkReportComponent implements OnInit {
           }
           
           (<FormArray>this.StepForm.controls["intervalsArray"]).push(new FormControl({
-            HourInterval: this.getHourIntervalString(index),
+            HourInterval: this.Util.getHourIntervalString(index),
             PostsCount: postsNumber,
-            LikesCount: array.reduce(this.add,0),
+            LikesCount: array.reduce(this.Util.add,0),
             LikesMedian: likesMedianInIntervalArray[index]
         }));
         }
@@ -89,22 +93,7 @@ export class VkReportComponent implements OnInit {
       });
     }
   }
-
-  private add(a,b) {
-    return a+b;
-  }
-
-  getHourIntervalString(number) {
-    if (number <= 9) {
-      return "0" + number + ":00 - " + (number < 9 ? ("0" + (number+1)) : (number+1)) + ":00";
-    }
-    else return number + ":00 - " + (number+1) + ":00";
-  }
-
-  get VKId() { return this.StepForm.get("VKId") }
-
-  get intervalsArray() { return this.StepForm.get("intervalsArray"); }
-
+  
   GetVKInfo() {
     if (this.StepForm.valid) {
       this.StepForm.controls["intervalsArray"] = this.fb.array([]);
@@ -120,46 +109,6 @@ export class VkReportComponent implements OnInit {
         });
     }
     this.StepForm.controls["VKId"].reset("");
-  }
-
-  IsEven(n) {
-    return n%2 == 0;
-  }
-
-  private sort(array, descending = true) {
-    var len = array.length;
-    if(len < 2) { 
-      return array;
-    }
-    var pivot = Math.ceil(len/2);
-    if (descending) return this.merge(this.sort(array.slice(0,pivot)), this.sort(array.slice(pivot)));
-    else return this.merge(this.sort(array.slice(pivot)), this.sort(array.slice(0,pivot)));
-  };
-  
-  private merge(left, right) {
-    var result = [];
-    while((left.length > 0) && (right.length > 0)) {
-      if(left[0] > right[0]) {
-        result.push(left.shift());
-      }
-      else {
-        result.push(right.shift());
-      }
-    }
-  
-    result = result.concat(left, right);
-    return result;
-  };
-
-  isMax(arr, elem) {
-    let len = arr.length;
-    let max = -Infinity;
-
-    while (len--) {
-        max = arr[len] > max ? arr[len] : max;
-    }
-    
-    if (elem == max) return true;
   }
 
   getMaxOrMinClassForMedian(elem) {

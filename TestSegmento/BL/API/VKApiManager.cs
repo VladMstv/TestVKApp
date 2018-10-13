@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using TestSegmento.BL.API.Interfaces;
 using TestSegmento.BL.API.Models;
 
 namespace TestSegmento.BL.API
 {
-    public class VKApiManager
+    public class VKApiManager: IVKApiManager
     {
         public string AccessToken { get; set; }
 

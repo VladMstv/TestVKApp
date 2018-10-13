@@ -8,6 +8,9 @@
         <div *ngIf="VKId.errors.required">
           VK Id is required.
         </div>
+        <div *ngIf="VKId.errors.pattern">
+          Field contains unallowed chars.
+        </div>
       </div>
       <div *ngIf="Error" class="alert alert-danger"> {{ Error }} </div>
     </div>
