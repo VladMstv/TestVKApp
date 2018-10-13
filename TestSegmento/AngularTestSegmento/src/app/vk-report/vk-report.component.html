@@ -1,0 +1,39 @@
+<div class="container-fluid" [formGroup]='StepForm'>
+  <div class="center-block">
+    <div class="search-group">
+      <p>Please, enter vk ID or page custom ID</p>
+      <input class="form-control vk-id-input" type="text" [ngClass]="{'disabled': IsLoading }" formControlName='VKId' (keydown)='onVKInputKeyDown($event)'>
+      <button class="btn btn-primary vk-get-info-button" [ngClass]="{'disabled': IsLoading }" (click)='GetVKInfo()'>Go</button>
+      <div *ngIf="VKId.invalid && (VKId.dirty || VKId.touched)" class="alert alert-danger">
+        <div *ngIf="VKId.errors.required">
+          VK Id is required.
+        </div>
+      </div>
+      <div *ngIf="Error" class="alert alert-danger"> {{ Error }} </div>
+    </div>
+
+    <div class="app-loading" *ngIf="IsLoading"><div class="preloader"></div></div>
+    <div style="width:100%; margin-top:20px;" formArrayName='intervalsArray' *ngIf='intervalsArray.value.length>0'>
+      <table class='table table-bordered table-striped intervals-table'>
+        <thead>
+          <tr>
+            <th>Interval</th>
+            <th>Posts Count</th>
+            <th>Likes Count</th>
+            <th>Likes Median</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor='let interval of intervalsArray.value'>
+            <tr class='{{ getMaxOrMinClassForMedian(interval.LikesMedian) }}' >
+              <td>{{ interval.HourInterval }}</td>
+              <td>{{ interval.PostsCount }}</td>
+              <td>{{ interval.LikesCount }}</td>
+              <td>{{ interval.LikesMedian }}</td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

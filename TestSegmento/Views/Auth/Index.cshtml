@@ -10,7 +10,7 @@
         <p style="margin-bottom:15px;">Please, login with VK</p>
         <a class="btn vk-btn" href="@Url.Action("AuthenticateViaVk", "Auth")"></a>
 
-        @{ if (Model.Errors.Any())
+        @{ if (Model.Errors.Any()) 
             {
                 foreach (var error in Model.Errors)
                 {
