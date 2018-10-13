@@ -1,0 +1,30 @@
+﻿@model TestSegmento.ViewModels.Home.ReportViewModel
+@{
+    ViewBag.Title = "Reports";
+}
+
+@section styles {
+    @Styles.Render("~/bundles/angular/css")
+}
+
+<p class="lead" style="margin-top:30px;">You're logged in as</p>
+<p class="lead">
+    @{if (!String.IsNullOrEmpty(Model.AvatarUrl))
+        {
+            <img class="avatar" src="@Model.AvatarUrl" />
+        }
+    }
+    &nbsp; @Model.VkName
+</p>
+
+<div class="row angular">
+    <app-root>
+        <div class="app-loading">
+            <div class="preloader"></div>
+        </div>
+    </app-root>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/angular/js")
+}

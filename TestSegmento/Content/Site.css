@@ -1,0 +1,72 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+div.container.login-container {
+    margin-top:50px;
+}
+
+a.btn.vk-btn {
+    background: url(Images/vk-icon.png);
+    background-repeat:no-repeat;
+    background-size:contain;
+    width:100px;
+    height:100px;
+}
+
+a.btn.vk-btn:active {
+    -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,.08);
+    box-shadow: inset 0 3px 5px rgba(0,0,0,0.08);
+}
+
+div.validation-error {
+    color:red;
+    font-size: 13px;
+}
+
+img.avatar {
+    width:60px;
+    height:60px;
+}
+
+.row.angular {
+    min-height: 260px;
+    position: relative;
+}
+
+.app-loading {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.preloader {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    background: url(http://s018.radikal.ru/i527/1607/3d/2dd8353d01b2.gif) no-repeat;
+}
